@@ -66,15 +66,19 @@ class Sterowanie24(QtGui.QMainWindow):
 
         for row in range(model.rowCount()):
             # data.append([])
-
+            concat = str(self.get_config_parametr_from_xml("gpio_name_"+str(row)))
             index = model.index(row, 1)
             # We suppose data are strings
             # data[row].append(str(model.data(index).toString()))
             #model.
-            #model.setItem(row, "", QtGui.QTableWidgetItem( str(self.get_config_parametr_from_xml("gpio_name_"+str(x)))))
+            #model.setItem(row, 2, QtGui.QTableWidgetItem( str(self.get_config_parametr_from_xml("gpio_name_"+str(x)))))
+            item = QStandardItem(concat)
+            item2 = QStandardItem(concat)
+            model.setItem(row, 1, item)
+            #model.setItem(row, 0, item2)
             #ET.SubElement(doc, "gpio_name_" + str(row), name="" + str(row)).text = str(model.data(index).toString())
 
-
+            print concat
     def get_usable_gpio_number(self):
         return 16
 
@@ -161,6 +165,9 @@ class Sterowanie24(QtGui.QMainWindow):
             #data[row].append(str(model.data(index).toString()))
             ET.SubElement(doc, "gpio_name_" + str(row), name=""+str(row)).text = str(model.data(index).toString())
 
+            print str(model.data(index).toString())
+
+
 
          tree = ET.ElementTree(root)
          tree.write("uploader_config.xml")
@@ -176,7 +183,7 @@ class Sterowanie24(QtGui.QMainWindow):
         model = QStandardItemModel(gpio_range, 3) # second parametr - column count
         for row in range(gpio_range):
             for column in range(3): # column count
-                item = QStandardItem("Kanal sterujacy %d, column %d" % (row+1, column))
+                item = QStandardItem("Kanal sterujacy %d" % (row+1))
                 model.setItem(row, column, item)
         model.setHorizontalHeaderLabels(['Kanal sterowania', 'Nazwa sterowanego kanalu', 'Wybierz GPIO'])
         self.ui.tableView.setModel(model)
